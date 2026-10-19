@@ -19,6 +19,10 @@ const WORD = /^[A-Z]{5}$/;
  *   The second L is black because APPLE has only one L, already used by the
  *   first L's yellow.
  */
+
+
+
+
 export function matchGuess(secret: string, guess: string): Color[] {
   if (!WORD.test(secret) || !WORD.test(guess)) {
     throw new RangeError('secret and guess must be five uppercase letters');

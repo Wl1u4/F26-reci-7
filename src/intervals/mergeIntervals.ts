@@ -19,6 +19,11 @@ export type Interval = [start: number, end: number];
  *
  * The input may be in any order and may contain duplicates. [] gives [].
  */
+
+
+
+
+
 export function mergeIntervals(intervals: readonly Interval[]): Interval[] {
   for (const [start, end] of intervals) {
     if (!Number.isInteger(start) || !Number.isInteger(end) || start > end) {
