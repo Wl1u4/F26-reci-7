@@ -21,7 +21,7 @@ const wordFrom = (letters: string) =>
 const word = wordFrom(ALPHABET);
 
 
-// Pattern: invariant. result always have exactly five colors.
+// Pattern: invariant. result always have exactly five colors. 
 
 it('returns exactly five colors', () => {
   fc.assert(
@@ -57,7 +57,7 @@ it('Guessing the secret gives all greens', () => {
 //Pattern: invariant. No letter is credited (g or y) more times than the secret contains it.
 it('never credits a letter more times than the secret contains it', () => {
   fc.assert(
-    fc.property(word, word, (secret, guess) => {
+    fc.property(wordFrom('ABC'), wordFrom('ABC'), (secret, guess) => {
       const result = matchGuess(secret, guess);
 
       for (const letter of new Set(guess)) {
@@ -74,6 +74,46 @@ it('never credits a letter more times than the secret contains it', () => {
     }),
   );
 });
+
+// Pattern: metamorphic. Renaming letters consistently preserves the colors.
+it('gives the same colors when letters are renamed', () => {
+  function rename(word: string): string {
+    return [...word].map(letter => {
+      const index = ALPHABET.indexOf(letter);
+      const nextIndex = (index + 1) % ALPHABET.length;
+      return ALPHABET[nextIndex];
+    }).join('');
+  }
+
+  fc.assert(
+    fc.property(word, word, (secret, guess) => {
+      const originalResult = matchGuess(secret, guess);
+      const renamedResult = matchGuess(rename(secret), rename(guess));
+
+      expect(renamedResult).toEqual(originalResult);
+    }),
+  );
+});
+
+// Pattern: conditional. Moving five distinct letters out of position gives all yellows.
+it('gives all yellows when distinct letters are rotated', () => {
+  const distinctLetters = fc.shuffledSubarray([...ALPHABET], {
+    minLength: 5,
+    maxLength: 5,
+  });
+
+  fc.assert(
+    fc.property(distinctLetters, letters => {
+      const secret = letters.join('');
+      const guess = letters.slice(1).join('') + letters[0];
+
+      expect(matchGuess(secret, guess)).toEqual([
+        'Y', 'Y', 'Y', 'Y', 'Y',
+      ]);
+    }),
+  );
+});
+
 
 
 describe('matchGuess', () => {
