@@ -52,6 +52,7 @@ exposes the bug.
     Counterexample: [0,1,1]
     AssertionError: expected [ [ +0, 1 ], [ 1, 2 ] ] to deeply equal [ [ +0, 2 ] ]
 
+The gnereated values constrcut the intervals [0,1] and [1,2]. The specs says intervals sharing an endpoint must merge into [0,2], but the mutant incorrectly keeps them separate. 
 ### 4. Your project
 
 Name one function or module in your team's project that would benefit from
