@@ -32,7 +32,7 @@ it('returns exactly five colors', () => {
 
 })
 
-//PAttern: Invariant. every color is g y or b 
+// Pattern: Invariant. every color is g y or b 
 it('only uses the colors G, Y, B', () => {
   fc.assert(
     fc.property(word,word, (secret, guess) => {
@@ -43,7 +43,7 @@ it('only uses the colors G, Y, B', () => {
 })
 
 
-//Pattern: conditional. If guess is secret, every color is green.
+// Pattern: conditional. If guess is secret, every color is green.
 it('Guessing the secret gives all greens', () => {
   fc.assert(
     fc.property(word, w => {
@@ -54,7 +54,7 @@ it('Guessing the secret gives all greens', () => {
 })
 
 
-//Pattern: invariant. No letter is credited (g or y) more times than the secret contains it.
+// Pattern: invariant. No letter is credited (g or y) more times than the secret contains it.
 it('never credits a letter more times than the secret contains it', () => {
   fc.assert(
     fc.property(wordFrom('ABC'), wordFrom('ABC'), (secret, guess) => {
